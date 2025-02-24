@@ -3,13 +3,9 @@ from selenium.webdriver.support import expected_conditions as EC
 from pages.url import MAIN_PAGE_URL
 import allure
 
-class BasePageMetod:
+class BasePage:
    def __init__(self, driver):
        self.driver = driver
-
-   @allure.step("Открыть Главную страницу")
-   def open_main_page(self):
-       self.driver.get(MAIN_PAGE_URL)
 
    @allure.step('Найти элемент на странице и дождаться его загрузки')
    def find_elements_with_wait(self, locator, timeout=10):
@@ -74,3 +70,10 @@ class BasePageMetod:
        else:
            # Возвращаем 0, если текст не является числом (или можно вернуть любое другое значение)
            return 0
+
+
+   """Ниже собраны новые методы, созданные в рамках доработок"""
+   @allure.step("Открыть Главную страницу")
+   def open_main_page(self):
+       self.driver.get(MAIN_PAGE_URL)
+       WebDriverWait(self.driver, 4).until(EC.url_to_be(MAIN_PAGE_URL))
