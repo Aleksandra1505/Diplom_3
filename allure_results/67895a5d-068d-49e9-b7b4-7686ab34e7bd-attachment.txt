@@ -1,0 +1,2 @@
+Элемент для перетаскивания: <selenium.webdriver.remote.webelement.WebElement (session="564d21a1-4291-4b47-b369-f0e8b8b9f9bf", element="90218339-5911-4cd9-98da-574903100655")>, целевой элемент: <selenium.webdriver.remote.webelement.WebElement (session="564d21a1-4291-4b47-b369-f0e8b8b9f9bf", element="5ebc13a8-3acf-4a84-84e5-330d0b5bc94d")>
+Перетаскивание выполнено
