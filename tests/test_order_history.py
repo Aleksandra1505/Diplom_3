@@ -55,7 +55,7 @@ class TestOrderPage:
         profile_page.login_as_default_user()
         # Переходим на Ленту заказов и получаем текущее значение счетчика
         order_page.go_to_orders_feed_page()
-        initial_counter_value = order_page.get_counter_value(OrderLocators.COUNTER_DONE_ALL_TIME)
+        initial_counter_value = constructor_page.get_completed_orders_counter_value()
 
         # Переходим в конструктор
         constructor_page.go_to_constructor_page()
@@ -68,7 +68,7 @@ class TestOrderPage:
 
         # Переходим на Ленту заказов и получаем текущее значение счетчика
         order_page.go_to_orders_feed_page()
-        new_counter_value = order_page.get_counter_value(OrderLocators.COUNTER_DONE_ALL_TIME)
+        new_counter_value = constructor_page.get_completed_orders_counter_value()
         assert new_counter_value > initial_counter_value
 
     @allure.title("Проверка увеличения счетчика выполненных заказов за сегодняшний день после создания нового заказа")
@@ -81,7 +81,7 @@ class TestOrderPage:
         profile_page.login_as_default_user()
         # Переходим на Ленту заказов и получаем текущее значение счетчика
         order_page.go_to_orders_feed_page()
-        initial_counter_value = order_page.get_counter_value(OrderLocators.COUNTER_DONE_TODAY)
+        initial_counter_value = constructor_page.get_completed_orders_counter_value_today()
 
         # Переходим в конструктор
         constructor_page.go_to_constructor_page()
@@ -94,7 +94,7 @@ class TestOrderPage:
 
         # Переходим на Ленту заказов и получаем текущее значение счетчика
         order_page.go_to_orders_feed_page()
-        new_counter_value = order_page.get_counter_value(OrderLocators.COUNTER_DONE_TODAY)
+        new_counter_value = constructor_page.get_completed_orders_counter_value_today()
         assert new_counter_value > initial_counter_value
 
     @allure.title("Проверка появления номера заказа в разделе 'В работе' после создания заказа")
@@ -116,18 +116,16 @@ class TestOrderPage:
         # Ожидаем появления и обновления номера заказа
         order_page.wait_for_order_number_popup()
         order_page.wait_for_order_number_update()
-        expected_order_number = order_page.get_order_number_from_popup()
-
+        # Сохраняем номер заказа в Page Object
+        order_page.set_expected_order_number()
         # Закрываем попап по крестику
         order_page.close_popup_order()
 
-        # Переходим на Ленту заказов и получаем текущее значение счетчика
+        # Переходим на Ленту заказов
         order_page.go_to_orders_feed_page()
-
         # Ожидаем появления заказа в "В работе"
-        order_page.wait_for_order_in_progress(expected_order_number)
-
+        order_page.wait_for_order_in_progress()
         # Проверяем, что заказ действительно появился
         order_numbers = order_page.get_orders_in_progress()
 
-        assert expected_order_number in order_numbers
+        assert order_page.expected_order_number in order_numbers

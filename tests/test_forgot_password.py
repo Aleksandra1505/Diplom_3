@@ -11,7 +11,7 @@ class TestForgotPassword:
         forgot_password_page.go_to_forgot_password_page()
         assert forgot_password_page.is_element_visible(ForgotPasswordLocators.PASSWORD_RECOVERY_HEADER)
 
-    @allure.title("ввод почты и клик по кнопке «Восстановить»")
+    @allure.title("Ввод почты и клик по кнопке «Восстановить»")
     def test_reset_password(self, driver):
         forgot_password_page = ForgotPasswordPage(driver)
         # Переход на страницу восстановления пароля
@@ -22,7 +22,7 @@ class TestForgotPassword:
         forgot_password_page.click_restore_password_button()
         assert forgot_password_page.find_elements_with_wait(ForgotPasswordLocators.PASSWORD_LABEL).is_displayed()
 
-    @allure.title("клик по кнопке показать/скрыть пароль делает поле активным — подсвечивает его")
+    @allure.title("Клик по кнопке показать/скрыть пароль делает поле активным — подсвечивает его")
     def test_toggle_show_password(self, driver):
         login_page = ForgotPasswordPage(driver)
         # Переход на страницу логина

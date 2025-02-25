@@ -1,6 +1,6 @@
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-from pages.url import MAIN_PAGE_URL
+from pages.url import LOGIN_PAGE_URL, MAIN_PAGE_URL
 import allure
 
 class BasePage:
@@ -42,11 +42,6 @@ class BasePage:
    def wait_for_element(self, locator):
        return WebDriverWait(self.driver, 5).until(EC.visibility_of_element_located(locator))
 
-   @allure.step('Скролл до элемента')
-   def scroll_to_element(self, locator):
-       element = self.driver.find_element(*locator)
-       self.driver.execute_script('arguments[0].scrollIntoView();', element)
-
    @allure.step('Получить элемент')
    def get_elements(self, locator):
        elements = self.find_elements_with_wait(locator)
@@ -77,3 +72,7 @@ class BasePage:
    def open_main_page(self):
        self.driver.get(MAIN_PAGE_URL)
        WebDriverWait(self.driver, 4).until(EC.url_to_be(MAIN_PAGE_URL))
+
+   @allure.step("Переход на страницу логина")
+   def go_to_login_page(self):
+       self.driver.get(LOGIN_PAGE_URL)

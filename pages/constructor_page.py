@@ -7,22 +7,6 @@ from selenium.webdriver.support import expected_conditions as EC
 import allure
 
 class ConstructorPage(BasePage):
-    @allure.step('Переход по клику на «Конструктор»')
-    def go_to_constructor(self):
-        self.click_to_element(ConstructorLocators.CONSTRUCTOR_PAGE)
-
-    @allure.step('Проверка, что заголовок Соберите бургер отображается')
-    def is_constructor_header_visible(self):
-        return self.is_element_visible(ConstructorLocators.CONSTRUCTOR_HEADER)
-
-    @allure.step('Переход по клику на Лента заказов')
-    def go_to_orders_feed(self):
-        self.click_to_element(ConstructorLocators.ORDERS_FEED_HEADER)
-
-    @allure.step('Проверка, что заголовок Лента заказов отображается')
-    def is_orders_feed_visible(self):
-        return self.is_element_visible(ConstructorLocators.LIST_ORDER_FEED)
-
     @allure.step('Получение текущего значения счетчика ингредиента')
     def get_counter_value(self):
         counter_elements = self.get_elements(ConstructorLocators.COUNTER_INGREDIENT)
@@ -37,23 +21,30 @@ class ConstructorPage(BasePage):
         actions.drag_and_drop(source_element, target_element).perform()
         print("Перетаскивание выполнено")
 
-    @allure.step('Проверить количество ингредиентов до добавления в корзину')
-    def check_count_before_ingredient_added(self):
-        return self.get_text_from_element(ConstructorLocators.COUNTER_INGREDIENT)
-
     @allure.step('Проверяем, что появился попап с подтверждением заказа')
     def is_order_confirmation_displayed(self):
         return self.is_element_visible(ConstructorLocators.ORDER_CONFIRMATION_POPUP)
 
     """Ниже собраны новые методы, созданные в рамках доработок"""
+
+    @allure.step('Получение текущего значения счетчика выполненных заказов')
+    def get_completed_orders_counter_value(self):
+        counter_elements = self.get_elements(OrderLocators.COUNTER_DONE_ALL_TIME)
+        return int(counter_elements[0].text) if counter_elements else 0
+
+    @allure.step('Получение текущего значения счетчика выполненных заказов')
+    def get_completed_orders_counter_value_today(self):
+        counter_elements = self.get_elements(OrderLocators.COUNTER_DONE_TODAY)
+        return int(counter_elements[0].text) if counter_elements else 0
+
     @allure.step('Переход на страницу конструктора')
     def go_to_constructor_page(self):
         self.click_to_element(ConstructorLocators.CONSTRUCTOR_PAGE)
 
     @allure.step('Переход на страницу конструктора')
-    def go_to_orders_feed_page(self, driver):
+    def go_to_orders_feed_page(self):
         self.click_to_element(ConstructorLocators.ORDERS_FEED_HEADER)
-        WebDriverWait(driver, 20).until(
+        WebDriverWait(self.driver, 20).until(
             EC.presence_of_element_located(OrderLocators.COUNTER_DONE_ALL_TIME)
         )
 

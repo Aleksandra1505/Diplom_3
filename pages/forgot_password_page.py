@@ -18,11 +18,6 @@ class ForgotPasswordPage(BasePage):
         )
         self.click_to_element(ForgotPasswordLocators.FORGOT_PASSWORD_LINK)
 
-    @allure.step("Переход на страницу логина")
-    def go_to_login_page(self):
-        self.driver.get(LOGIN_PAGE_URL)
-
-
     @allure.step('Клик по кнопке скрытия элемента')
     def toggle_show_password(self):
         self.click_to_element(ForgotPasswordLocators.SHOW_PASSWORD)

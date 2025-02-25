@@ -10,10 +10,6 @@ class ProfilePage(BasePage):
     def __init__(self, driver):
         super().__init__(driver)
 
-    @allure.step('Перейти на страницу авторизации')
-    def go_to_login_page(self):
-        self.driver.get(LOGIN_PAGE_URL)
-
     @allure.step('Ввод эмейла')
     def enter_email_profile(self, email):
         self.find_elements_with_wait(ProfileLocators.EMAIL_INPUT).send_keys(email)
@@ -22,10 +18,6 @@ class ProfilePage(BasePage):
     def enter_password_profile(self, password):
         self.find_elements_with_wait(ProfileLocators.PASSWORD_INPUT).send_keys(password)
 
-    @allure.step('Переход по клику на «Личный кабинет»')
-    def go_to_profile1(self, driver):
-        self.click_to_element(ProfileLocators.BUTTON_PROFILE)
-        WebDriverWait(driver, 10).until(EC.url_to_be(PROFILE_URL))
 
     """Ниже собраны новые методы, созданные в рамках доработок"""
     @allure.step('Авторизация')
